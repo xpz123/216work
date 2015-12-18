@@ -50,3 +50,28 @@ private:
 		}
 	}
 };
+
+//Combination Sum III
+class Solution {
+public:
+	vector<vector<int>> res;
+	vector<vector<int>> combinationSum3(int k, int n) {
+		vector<int> tmp;
+		com(k, n, 1, tmp);
+		return res;
+	}
+private:
+	void com(int k, int target, int j, vector<int> &tmp){
+		if (k == 0 && target == 0){
+			res.push_back(tmp);
+			return;
+		}
+		else{
+			for (int i = j; i <= 9 && k > 0 && target >= i; i++){
+				tmp.push_back(i);
+				com(k - 1, target - i, i + 1, tmp);
+				tmp.pop_back();
+			}
+		}
+	}
+};
