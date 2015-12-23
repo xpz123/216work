@@ -75,3 +75,66 @@ private:
 		}
 	}
 };
+
+//Missing num
+
+class Solution {
+public:
+	int missingNumber(vector<int>& nums) {
+		int result = nums.size();
+		int i = 0;
+
+		for (int num : nums){
+			result ^= num;
+			result ^= i;
+			i++;
+		}
+
+		return result;
+	}
+};
+
+//Minimum Path Sum
+class Solution {
+public:
+	int minPathSum(vector<vector<int>>& grid) {
+		vector<int> tmp(grid[0].size(), 0);
+		vector<vector<int>> res(grid.size(), tmp);
+		if (grid.size() == 0) return 0;
+		res[0][0] = grid[0][0];
+		for (int i = 1; i < grid[0].size(); i++){
+			res[0][i] = grid[0][i] + res[0][i - 1];
+		}
+		for (int i = 1; i < grid.size(); i++){
+			res[i][0] = grid[i][0] + res[i - 1][0];
+		}
+		for (int i = 1; i < grid.size(); i++)
+			for (int j = 1; j < grid[0].size(); j++){
+				//res[i][j] = grid[i][j] + (res[i - 1][j] < res[i][j - 1]) ? res[i - 1][j] : res[i][j - 1];
+				if (res[i - 1][j] < res[i][j - 1]){
+					res[i][j] = grid[i][j] + res[i - 1][j];
+				}
+				else res[i][j] = grid[i][j] + res[i][j - 1];
+			}
+		return res[grid.size() - 1][grid[0].size() - 1];
+	}
+};
+
+//Two sum
+class Solution {
+public:
+	vector<int> twoSum(vector<int>& nums, int target) {
+		unordered_map<int, int> tmp;
+		vector<int> res(2, 0);
+		for (int i = 0; i < nums.size(); i++){
+			int numfind = target - nums[i];
+			if (tmp.find(numfind) != tmp.end()){
+				res[0] = tmp[numfind] + 1;
+				res[1] = i + 1;
+				return res;
+			}
+			tmp[nums[i]] = i;
+		}
+
+	}
+};
