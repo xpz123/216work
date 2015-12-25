@@ -138,3 +138,62 @@ public:
 
 	}
 };
+
+//Construct Binary Tree from Inorder and Postorder Traversal
+struct TreeNode {
+	int val;
+	TreeNode *left;
+	TreeNode *right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+public:
+	TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+		if (inorder.size() == 0) return NULL;
+		TreeNode *tmp;
+		TreeNode *root;
+		stack<TreeNode *> a;
+		root = new TreeNode(postorder.back());
+		a.push(root);
+		postorder.pop_back();
+		while (true){
+			if (a.top()->val == inorder.back()){
+				inorder.pop_back();
+				tmp = a.top();
+				a.pop();
+				if (inorder.size() == 0) break;
+				if (a.size() && inorder.back() == a.top()->val)
+					continue;
+				tmp->left = new TreeNode(postorder.back());
+				postorder.pop_back();
+				a.push(tmp->left);
+
+			}
+			else{
+				tmp = new TreeNode(postorder.back());
+				postorder.pop_back();
+				a.top()->right = tmp;
+				a.push(tmp);
+			}
+		}
+	}
+};
+
+// Maximum Subarray
+class Solution {
+public:
+	int maxSubArray(vector<int>& nums) {
+		if (nums.size() == 0) return 0;
+		int sum = nums[0];
+		int res = sum;
+		for (int i = 1; i < nums.size(); i++){
+			if (sum <= 0) sum = nums[i];
+			else{
+				sum += nums[i];
+			}
+			if (res < sum) res = sum;
+		}
+		return res;
+	}
+};
