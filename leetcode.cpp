@@ -234,3 +234,64 @@ int minimumTotal(vector<vector<int> > &triangle) {
 }
 
 
+//Maximum Product Subarray
+class Solution {
+public:
+	int maxProduct(vector<int>& nums) {
+		if (nums.size() == 0) return 0;
+		int lmax = nums[0];
+		int lmin = nums[0];
+		int tmax = lmax;
+		int tmin = lmin;
+		int gmax = nums[0];
+		for (int i = 1; i < nums.size(); i++){
+			lmax = max(max(tmax * nums[i], nums[i]), tmin * nums[i]);
+			lmin = min(min(tmin * nums[i], nums[i]), tmax * nums[i]);
+			tmax = lmax;
+			tmin = lmin;
+			gmax = max(lmax, gmax);
+		}
+		return gmax;
+	}
+};
+
+//Construct Binary Tree from Preorder and Inorder Traversal
+struct TreeNode{
+	int val;
+	TreeNode *left;
+	TreeNode *right;
+	TreeNode(int x) :val(x), left(NULL), right(NULL){}
+};
+class Solution{
+public:
+	TreeNode *buildTree(vector<int>& preorder, vector<int>& inorder){
+		if (inorder.size() == 0) return NULL;
+		int countp = 1;
+		int counti = 0;
+		stack<TreeNode *> s;
+		TreeNode *root;
+		TreeNode *tmp;
+		root = new TreeNode(preorder[0]);
+		s.push(root);
+		while (true){
+			if (inorder[counti] == s.top()->val){
+				auto t = s.top();
+				counti++;
+				s.pop();
+				if (counti == inorder.size()) break;
+				if (s.size() && s.top()->val == inorder[counti]) continue;
+				tmp = new TreeNode(preorder[countp]);
+				t->right = tmp;
+				s.push(tmp);
+				countp++;
+			}
+			else{
+				tmp = new TreeNode(preorder[countp]);
+				s.top()->left = tmp;
+				s.push(tmp);
+				countp++;
+			}
+		}
+		return root;
+	}
+};
