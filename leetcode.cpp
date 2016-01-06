@@ -295,3 +295,71 @@ public:
 		return root;
 	}
 };
+
+//Jump Game
+class Solution {
+public:
+	bool canJump(vector<int>& nums) {
+		if (nums.size() == 0) return false;
+		if (nums.size() == 1) return true;
+		if (findjump(nums, 0)) return true;
+		else return false;
+	}
+private:
+	int findmax(vector<int>& nums, int pos){
+		int max = nums[pos];
+		int res = pos;
+		for (int i = 1; i <= nums[pos]; i++){
+			if (max <= (i + nums[pos + i])){
+				max = nums[pos + i] + i;
+				res = pos + i;
+			}
+		}
+		return res;
+	}
+	bool findjump(vector<int>& nums, int pos){
+		if (nums[pos] == 0) return false;
+		if ((nums[pos] + pos) >= (nums.size() - 1)) return true;
+		int tmp = findmax(nums, pos);
+		if (findjump(nums, tmp)) return true;
+		else return false;
+	}
+};
+bool canJump(vector<int>& nums) {
+	int size = nums.size();
+	int step = nums[0];
+	for (int i = 1; i<size; ++i){
+		step--;
+		if (step<0)
+			return false;
+		if (nums[i]>step)
+			step = nums[i];
+	}
+	return true;
+}
+
+//Word Search(unfinished)
+class Solution {
+public:
+	bool exist(vector<vector<char>>& board, string word) {
+		//unordered_map<pair<int, int>, int> used;
+		
+		bool res = false;
+		if (word.size() == 0) return false;
+		for (int i = 0; i < board.size(); i++){
+			for (int j = 0; j < board[0].size(); j++){
+				if (res == true) return res;
+				if (word[0] == board[i][j]) findword(i, j, 1);
+			}
+		}
+		return res;
+	}
+private:
+	bool findword(int i, int j, int pos){
+		if (i == 0){
+			if (j == 0){
+				return true;
+			}
+		}
+	}
+};
