@@ -363,3 +363,46 @@ private:
 		}
 	}
 };
+
+//Subsets
+class Solution {
+public:
+	vector<vector<int>> subsets(vector<int>& nums) {
+		int c = pow(2, nums.size());
+		sort(nums.begin(), nums.end());
+		vector<int> tmp;
+		vector<vector<int> > res(c, tmp);
+		for (int i = 1; i < c; i++){
+			for (int j = 0; j < nums.size(); j++){
+				if ((i >> j) & 1)
+					res[i].push_back(nums[j]);
+			}
+		}
+		return res;
+	}
+};
+
+//Subsets II
+class Solution {
+public:
+	vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+		vector<vector<int> > res;
+		vector<int> a;
+		res.push_back(a);
+		sort(nums.begin(), nums.end());
+		for (int i = 0; i < nums.size();){
+			int count = 0;
+			while (count + i < nums.size() && nums[count + i] == nums[i]) count++;
+			int ori_size = res.size();
+			for (int j = 0; j < ori_size; j++){
+				auto tmp = res[j];
+				for (int k = 0; k < count; k++){
+					tmp.push_back(nums[i]);
+					res.push_back(tmp);
+				}
+			}
+			i += count;
+		}
+		return res;
+	}
+};
