@@ -406,3 +406,64 @@ public:
 		return res;
 	}
 };
+
+//sort colors(==0 必须放在下边因为是从头开始进行判断的，因此《i的项中，不会存在==2的）
+class Solution {
+public:
+	void sortColors(vector<int>& nums) {
+		int l = 0, r = nums.size() - 1;
+		for (int i = 0; i <= r; i++){
+
+			while (nums[i] == 2 && i < r) swap(nums[i], nums[r--]);
+			while (nums[i] == 0 && i > l){
+				swap(nums[i], nums[l++]);
+			}
+		}
+	}
+};
+
+//Container with most water
+class Solution {
+public:
+	int maxArea(vector<int>& height) {
+		int res = 0;
+		int i = 0, j = height.size() - 1;
+		int hi = height[i], hj = height[j];
+		while (i < j){
+			int h = min(hei);
+			res = max(res, min(height[i], height[j]) * (j - i));
+			while (height[i] <= h && i < j) i++;
+			while (height[j] <= h && i < j) j++;
+		}
+		return max;
+	}
+};
+
+//Trapping rain water
+class Solution {
+public:
+	int trap(vector<int>& height) {
+		if (height.size() == 0) return 0;
+		int max = 0, index = 0;
+		for (int i = 0; i < height.size(); i++){
+			if (max <= height[i]){
+				max = height[i];
+				index = i;
+			}
+		}
+		max = 0;
+		int res = 0;
+		for (int i = 0; i <= index; i++){
+			if (max <= height[i]) max = height[i];
+			else{
+				res += (max - height[i]);
+			}
+		}
+		max = 0;
+		for (int i = height.size() - 1; i >= index; i--){
+			if (max <= height[i]) max = height[i];
+			else res += (max - height[i]);
+		}
+		return res;
+	}
+};
